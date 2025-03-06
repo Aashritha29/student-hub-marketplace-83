@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { BookOpen, Monitor, Crafts, Package, ShoppingBag } from "lucide-react";
+import { BookOpen, Monitor, Palette, Package, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Category {
@@ -15,7 +15,7 @@ export function MarketplaceCategories() {
     { name: "All", icon: ShoppingBag },
     { name: "Textbooks", icon: BookOpen },
     { name: "Electronics", icon: Monitor },
-    { name: "Crafts", icon: Crafts },
+    { name: "Crafts", icon: Palette },
     { name: "Gadgets", icon: Package },
   ];
 

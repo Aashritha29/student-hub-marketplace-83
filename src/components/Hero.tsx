@@ -1,12 +1,11 @@
-
-import { ArrowRight, BookOpen, Monitor, Crafts } from "lucide-react";
+import { ArrowRight, BookOpen, Monitor, Palette } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 export function Hero() {
   const categories = [
     { name: "Textbooks", icon: BookOpen, color: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400" },
-    { name: "Crafts", icon: Crafts, color: "bg-yellow-50 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400" },
+    { name: "Crafts", icon: Palette, color: "bg-yellow-50 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400" },
     { name: "Gadgets", icon: Monitor, color: "bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400" },
   ];
 
