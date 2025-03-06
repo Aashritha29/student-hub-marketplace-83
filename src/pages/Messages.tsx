@@ -1,194 +1,224 @@
 
 import { useState } from "react";
-import { SearchIcon, Send } from "lucide-react";
-
-const mockConversations = [
-  {
-    id: 1,
-    user: {
-      name: "Priya Patel",
-      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-      online: true,
-    },
-    lastMessage: "Hey, are you still interested in trading the textbook?",
-    time: "2 min ago",
-    unread: 2,
-  },
-  {
-    id: 2,
-    user: {
-      name: "Rahul Verma",
-      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-      online: false,
-    },
-    lastMessage: "Thanks for the trade! The calculator works great.",
-    time: "Yesterday",
-    unread: 0,
-  },
-  {
-    id: 3,
-    user: {
-      name: "Ananya Singh",
-      avatar: "https://randomuser.me/api/portraits/women/63.jpg",
-      online: true,
-    },
-    lastMessage: "I have some crafts supplies I'd like to trade. Interested?",
-    time: "2 days ago",
-    unread: 0,
-  },
-];
+import { Search, Send, Phone, Video, Info, Smile, Paperclip, MessageSquare } from "lucide-react";
 
 const Messages = () => {
-  const [activeConversation, setActiveConversation] = useState<number | null>(1);
-  const [conversations, setConversations] = useState(mockConversations);
+  const [selectedChat, setSelectedChat] = useState(1);
+  
+  // Mock data for chat messages
+  const chats = [
+    {
+      id: 1,
+      user: {
+        id: 101,
+        name: "Rohit Sharma",
+        avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+        isOnline: true,
+        lastSeen: null
+      },
+      messages: [
+        { id: 1, text: "Hey, are you still selling that engineering textbook?", sender: "them", time: "10:32 AM" },
+        { id: 2, text: "Yes, it's still available! Are you interested?", sender: "me", time: "10:34 AM" },
+        { id: 3, text: "Great! What condition is it in?", sender: "them", time: "10:36 AM" },
+        { id: 4, text: "It's in excellent condition. I've only used it for one semester and there are no markings or highlights.", sender: "me", time: "10:38 AM" },
+        { id: 5, text: "Perfect! How much are you asking for it?", sender: "them", time: "10:40 AM" },
+      ],
+      unread: 0
+    },
+    {
+      id: 2,
+      user: {
+        id: 102,
+        name: "Priya Patel",
+        avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+        isOnline: false,
+        lastSeen: "Today at 9:15 AM"
+      },
+      messages: [
+        { id: 1, text: "Hi there! I saw your post about forming a study group for calculus.", sender: "them", time: "Yesterday" },
+        { id: 2, text: "Hey Priya! Yes, we're meeting on Thursday at the library around 5 PM.", sender: "me", time: "Yesterday" },
+      ],
+      unread: 1
+    },
+    {
+      id: 3,
+      user: {
+        id: 103,
+        name: "Amit Kumar",
+        avatar: "https://randomuser.me/api/portraits/men/67.jpg",
+        isOnline: true,
+        lastSeen: null
+      },
+      messages: [
+        { id: 1, text: "Are you coming to the tech event tomorrow?", sender: "them", time: "Monday" },
+        { id: 2, text: "I'm not sure yet. What time does it start?", sender: "me", time: "Monday" },
+        { id: 3, text: "It starts at 3 PM in the main auditorium. They'll be showcasing some cool AI projects!", sender: "them", time: "Monday" },
+      ],
+      unread: 2
+    }
+  ];
+  
+  const currentChat = chats.find(chat => chat.id === selectedChat);
   
   return (
-    <div className="min-h-screen pt-16">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 h-[calc(100vh-64px)]">
-          {/* Conversations List */}
-          <div className="border-r border-border md:col-span-1 overflow-y-auto">
-            <div className="p-4">
-              <div className="relative mb-4">
-                <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <input
-                  type="search"
-                  placeholder="Search conversations"
-                  className="w-full pl-10 pr-4 py-2 bg-muted rounded-lg text-sm"
-                />
-              </div>
-
-              <div className="space-y-2">
-                {conversations.map((conversation) => (
-                  <div
-                    key={conversation.id}
-                    className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                      activeConversation === conversation.id
-                        ? "bg-accent/10"
-                        : "hover:bg-secondary"
-                    }`}
-                    onClick={() => setActiveConversation(conversation.id)}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="relative">
-                        <img
-                          src={conversation.user.avatar}
-                          alt={conversation.user.name}
-                          className="h-12 w-12 rounded-full object-cover"
-                        />
-                        {conversation.user.online && (
-                          <div className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 rounded-full border-2 border-background"></div>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <h3 className="font-medium truncate">
-                            {conversation.user.name}
-                          </h3>
-                          <span className="text-xs text-muted-foreground">
-                            {conversation.time}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm text-muted-foreground truncate">
-                            {conversation.lastMessage}
-                          </p>
-                          {conversation.unread > 0 && (
-                            <span className="h-5 w-5 bg-brand-red text-white rounded-full flex items-center justify-center text-xs">
-                              {conversation.unread}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+    <div className="pt-20 h-[calc(100vh-80px)] flex animate-fade-in">
+      <div className="flex flex-col md:flex-row h-full w-full">
+        {/* Chat List Sidebar */}
+        <div className="w-full md:w-80 border-r border-border flex-shrink-0 bg-card overflow-hidden flex flex-col">
+          <div className="p-4 border-b border-border flex-shrink-0">
+            <h2 className="text-xl font-bold mb-4">Messages</h2>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search conversations"
+                className="w-full py-2 pl-9 pr-4 bg-accent/10 rounded-lg text-sm"
+              />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             </div>
           </div>
-
-          {/* Active Conversation */}
-          {activeConversation ? (
-            <div className="md:col-span-2 flex flex-col h-full">
-              {/* Conversation Header */}
-              <div className="border-b border-border p-4 flex items-center space-x-3">
-                <img
-                  src={conversations.find(c => c.id === activeConversation)?.user.avatar}
-                  alt={conversations.find(c => c.id === activeConversation)?.user.name}
-                  className="h-10 w-10 rounded-full object-cover"
-                />
+          
+          <div className="flex-grow overflow-y-auto">
+            {chats.map((chat) => (
+              <div
+                key={chat.id}
+                className={`p-3 flex items-center border-b border-border cursor-pointer transition-colors ${
+                  selectedChat === chat.id ? "bg-accent/10" : "hover:bg-secondary"
+                }`}
+                onClick={() => setSelectedChat(chat.id)}
+              >
+                <div className="relative mr-3">
+                  <img
+                    src={chat.user.avatar}
+                    alt={chat.user.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  {chat.user.isOnline && (
+                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-card"></span>
+                  )}
+                </div>
+                
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-baseline">
+                    <h3 className="font-medium truncate">{chat.user.name}</h3>
+                    <span className="text-xs text-muted-foreground">
+                      {chat.messages[chat.messages.length - 1].time}
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <p className="text-sm text-muted-foreground truncate flex-1">
+                      {chat.messages[chat.messages.length - 1].sender === "me" ? "You: " : ""}
+                      {chat.messages[chat.messages.length - 1].text}
+                    </p>
+                    
+                    {chat.unread > 0 && (
+                      <span className="ml-2 bg-brand-red text-white text-xs rounded-full h-5 min-w-5 flex items-center justify-center px-1">
+                        {chat.unread}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Chat Window */}
+        {currentChat ? (
+          <div className="flex-1 flex flex-col bg-background overflow-hidden">
+            {/* Chat Header */}
+            <div className="p-4 border-b border-border flex items-center justify-between flex-shrink-0">
+              <div className="flex items-center">
+                <div className="relative mr-3">
+                  <img
+                    src={currentChat.user.avatar}
+                    alt={currentChat.user.name}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  {currentChat.user.isOnline && (
+                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-card"></span>
+                  )}
+                </div>
+                
                 <div>
-                  <h3 className="font-medium">
-                    {conversations.find(c => c.id === activeConversation)?.user.name}
-                  </h3>
+                  <h3 className="font-medium">{currentChat.user.name}</h3>
                   <p className="text-xs text-muted-foreground">
-                    {conversations.find(c => c.id === activeConversation)?.user.online 
-                      ? "Online" 
-                      : "Offline"}
+                    {currentChat.user.isOnline ? "Online" : currentChat.user.lastSeen}
                   </p>
                 </div>
               </div>
-
-              {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {/* Sample messages - would be dynamic in a real app */}
-                <div className="flex justify-start">
-                  <div className="bg-muted rounded-lg p-3 max-w-[80%]">
-                    <p className="text-sm">Hey! I saw you have a physics textbook for trade? I'm looking for one for my class.</p>
-                    <span className="text-xs text-muted-foreground mt-1 block">10:30 AM</span>
-                  </div>
-                </div>
-                <div className="flex justify-end">
-                  <div className="bg-brand-navy text-white rounded-lg p-3 max-w-[80%]">
-                    <p className="text-sm">Yes, I do! It's the Engineering Physics by HC Verma. Are you interested in trading?</p>
-                    <span className="text-xs text-white/70 mt-1 block">10:32 AM</span>
-                  </div>
-                </div>
-                <div className="flex justify-start">
-                  <div className="bg-muted rounded-lg p-3 max-w-[80%]">
-                    <p className="text-sm">Perfect! That's exactly what I need. I have a calculus textbook to trade. Would that work?</p>
-                    <span className="text-xs text-muted-foreground mt-1 block">10:35 AM</span>
-                  </div>
-                </div>
-                <div className="flex justify-end">
-                  <div className="bg-brand-navy text-white rounded-lg p-3 max-w-[80%]">
-                    <p className="text-sm">That works! When and where would you like to meet to trade?</p>
-                    <span className="text-xs text-white/70 mt-1 block">10:36 AM</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Message Input */}
-              <div className="border-t border-border p-4">
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="text"
-                    placeholder="Type a message..."
-                    className="flex-1 bg-muted rounded-full px-4 py-2 text-sm"
-                  />
-                  <button className="h-10 w-10 bg-brand-navy text-white rounded-full flex items-center justify-center">
-                    <Send className="h-5 w-5" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="md:col-span-2 flex items-center justify-center">
-              <div className="text-center p-8">
-                <div className="h-16 w-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MessageCircle className="h-8 w-8 text-muted-foreground" />
-                </div>
-                <h3 className="text-xl font-medium mb-2">Your Messages</h3>
-                <p className="text-muted-foreground mb-4">
-                  Connect with other students to discuss trades and campus life
-                </p>
-                <button className="px-4 py-2 bg-brand-navy text-white rounded-lg">
-                  Start a conversation
+              
+              <div className="flex items-center space-x-3">
+                <button className="p-2 rounded-full hover:bg-accent/10 text-muted-foreground hover:text-foreground transition-colors">
+                  <Phone className="h-5 w-5" />
+                </button>
+                <button className="p-2 rounded-full hover:bg-accent/10 text-muted-foreground hover:text-foreground transition-colors">
+                  <Video className="h-5 w-5" />
+                </button>
+                <button className="p-2 rounded-full hover:bg-accent/10 text-muted-foreground hover:text-foreground transition-colors">
+                  <Info className="h-5 w-5" />
                 </button>
               </div>
             </div>
-          )}
-        </div>
+            
+            {/* Message List */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {currentChat.messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex ${message.sender === "me" ? "justify-end" : "justify-start"}`}
+                >
+                  {message.sender !== "me" && (
+                    <img
+                      src={currentChat.user.avatar}
+                      alt={currentChat.user.name}
+                      className="w-8 h-8 rounded-full object-cover mr-2 self-end"
+                    />
+                  )}
+                  
+                  <div
+                    className={`max-w-[70%] rounded-2xl px-4 py-2 ${
+                      message.sender === "me"
+                        ? "bg-brand-navy text-white rounded-br-none"
+                        : "bg-accent/10 rounded-bl-none"
+                    }`}
+                  >
+                    <p>{message.text}</p>
+                    <span className={`text-xs ${message.sender === "me" ? "text-brand-navy/70" : "text-muted-foreground"} block mt-1`}>
+                      {message.time}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Message Input */}
+            <div className="p-4 border-t border-border flex items-center flex-shrink-0">
+              <button className="p-2 rounded-full hover:bg-accent/10 text-muted-foreground hover:text-foreground transition-colors">
+                <Paperclip className="h-5 w-5" />
+              </button>
+              <input
+                type="text"
+                placeholder="Type a message..."
+                className="flex-1 bg-accent/10 rounded-full py-2 px-4 mx-2 text-sm"
+              />
+              <button className="p-2 rounded-full hover:bg-accent/10 text-muted-foreground hover:text-foreground transition-colors">
+                <Smile className="h-5 w-5" />
+              </button>
+              <button className="p-2 rounded-full bg-brand-navy text-white ml-1">
+                <Send className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex-1 flex flex-col items-center justify-center bg-background text-center p-4">
+            <MessageSquare className="h-16 w-16 text-muted-foreground mb-4" />
+            <h3 className="text-xl font-medium mb-2">No conversation selected</h3>
+            <p className="text-muted-foreground max-w-md">
+              Select a conversation from the list or start a new one to begin messaging
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
