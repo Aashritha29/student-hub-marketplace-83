@@ -1,16 +1,48 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, LogIn } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Authentication logic would go here
-    console.log("Sign in with:", email, password);
+    setIsLoading(true);
+    
+    // Mock authentication logic
+    setTimeout(() => {
+      // For demo purposes, accept any non-empty email/password
+      if (email.trim() && password.trim()) {
+        console.log("Sign in successful with:", email, password);
+        
+        // Store user info in localStorage (in a real app, you'd use tokens)
+        localStorage.setItem('user', JSON.stringify({
+          email,
+          name: email.split('@')[0],
+          isLoggedIn: true
+        }));
+        
+        toast({
+          title: "Success",
+          description: "You have successfully signed in"
+        });
+        
+        // Redirect to homepage after successful login
+        navigate('/');
+      } else {
+        toast({
+          title: "Error",
+          description: "Invalid email or password",
+          variant: "destructive"
+        });
+      }
+      setIsLoading(false);
+    }, 1000);
   };
   
   return (
@@ -105,12 +137,13 @@ const SignIn = () => {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent font-medium rounded-md text-white bg-brand-navy hover:bg-brand-navy/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-navy"
+              disabled={isLoading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent font-medium rounded-md text-white bg-brand-navy hover:bg-brand-navy/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-navy disabled:opacity-70"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <LogIn className="h-5 w-5 text-brand-navy group-hover:text-brand-navy" />
+                <LogIn className="h-5 w-5 text-white" />
               </span>
-              Sign in
+              {isLoading ? "Signing in..." : "Sign in"}
             </button>
           </div>
 

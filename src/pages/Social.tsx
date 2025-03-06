@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { UserPlus, MessageSquare, Heart, Share2, Send, PlusCircle, Tag, MapPin } from "lucide-react";
+import { UserPlus, MessageSquare, Heart, Share2, Send, PlusCircle, Tag, MapPin, ShoppingBag } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const Social = () => {

@@ -1,43 +1,50 @@
 
-import { useState } from "react";
-import { BookOpen, Monitor, Palette, Package, ShoppingBag } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 
-interface Category {
-  name: string;
-  icon: React.ElementType;
+// Create a type for the component props
+interface MarketplaceCategoriesProps {
+  onSelectCategory: (category: string) => void;
+  selectedCategory: string;
 }
 
-export function MarketplaceCategories() {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-  
-  const categories: Category[] = [
-    { name: "All", icon: ShoppingBag },
-    { name: "Textbooks", icon: BookOpen },
-    { name: "Electronics", icon: Monitor },
-    { name: "Crafts", icon: Palette },
-    { name: "Gadgets", icon: Package },
+export const MarketplaceCategories = ({ onSelectCategory, selectedCategory }: MarketplaceCategoriesProps) => {
+  const categories = [
+    { id: "all", name: "All" },
+    { id: "textbooks", name: "Textbooks" },
+    { id: "electronics", name: "Electronics" },
+    { id: "gadgets", name: "Gadgets" },
+    { id: "furniture", name: "Furniture" },
+    { id: "clothing", name: "Clothing" },
+    { id: "accessories", name: "Accessories" },
+    { id: "services", name: "Services" },
+    { id: "crafts", name: "Crafts" },
+    { id: "other", name: "Other" }
   ];
-
+  
   return (
-    <div className="overflow-x-auto py-4 px-6 md:px-8 bg-background sticky top-16 z-40 shadow-subtle">
-      <div className="flex space-x-2 md:space-x-4 max-w-7xl mx-auto">
-        {categories.map((category) => (
-          <button
-            key={category.name}
-            className={cn(
-              "flex items-center space-x-2 px-4 py-2 rounded-lg whitespace-nowrap transition-colors",
-              activeCategory === category.name
-                ? "bg-brand-navy text-white"
-                : "bg-secondary hover:bg-secondary/80 text-muted-foreground hover:text-foreground"
-            )}
-            onClick={() => setActiveCategory(category.name)}
-          >
-            <category.icon className="h-4 w-4" />
-            <span className="font-medium text-sm">{category.name}</span>
-          </button>
-        ))}
+    <div className="border-b border-border">
+      <div className="px-6 md:px-8 max-w-7xl mx-auto">
+        <div className="overflow-x-auto py-4">
+          <div className="flex space-x-2 min-w-max">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => onSelectCategory(category.name)}
+                className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                  selectedCategory === category.name
+                    ? "bg-brand-navy text-white"
+                    : "bg-accent/10 hover:bg-accent/20 text-foreground"
+                }`}
+              >
+                {selectedCategory === category.name && (
+                  <Check className="mr-1 h-3.5 w-3.5" />
+                )}
+                {category.name}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
-}
+};

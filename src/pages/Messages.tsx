@@ -1,12 +1,12 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Send, Phone, Video, Info, Smile, Paperclip, MessageSquare } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const Messages = () => {
   const [selectedChat, setSelectedChat] = useState(1);
-  
-  // Mock data for chat messages
-  const chats = [
+  const [newMessage, setNewMessage] = useState("");
+  const [chats, setChats] = useState([
     {
       id: 1,
       user: {
@@ -56,9 +56,95 @@ const Messages = () => {
       ],
       unread: 2
     }
-  ];
+  ]);
   
   const currentChat = chats.find(chat => chat.id === selectedChat);
+  
+  // Check if user is logged in
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      toast({
+        title: "Please sign in",
+        description: "You need to sign in to access messages",
+        variant: "destructive"
+      });
+    }
+  }, []);
+
+  // Handle sending a new message
+  const handleSendMessage = () => {
+    if (!newMessage.trim()) return;
+    
+    if (!currentChat) return;
+    
+    const updatedChats = chats.map(chat => {
+      if (chat.id === selectedChat) {
+        return {
+          ...chat,
+          messages: [
+            ...chat.messages,
+            {
+              id: chat.messages.length + 1,
+              text: newMessage,
+              sender: "me",
+              time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            }
+          ]
+        };
+      }
+      return chat;
+    });
+    
+    setChats(updatedChats);
+    setNewMessage("");
+    
+    // Simulate a response after a short delay
+    if (Math.random() > 0.5) {
+      setTimeout(() => {
+        const responses = [
+          "I'll think about it and get back to you.",
+          "That sounds great!",
+          "Can we discuss this further?",
+          "Thanks for letting me know.",
+          "Interesting! Tell me more."
+        ];
+        
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        
+        setChats(prev => prev.map(chat => {
+          if (chat.id === selectedChat) {
+            return {
+              ...chat,
+              messages: [
+                ...chat.messages,
+                {
+                  id: chat.messages.length + 1,
+                  text: randomResponse,
+                  sender: "them",
+                  time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                }
+              ]
+            };
+          }
+          return chat;
+        }));
+      }, 2000);
+    }
+  };
+
+  // Mark messages as read when selecting a chat
+  const handleSelectChat = (chatId: number) => {
+    setSelectedChat(chatId);
+    
+    // Mark messages as read
+    setChats(prev => prev.map(chat => {
+      if (chat.id === chatId) {
+        return { ...chat, unread: 0 };
+      }
+      return chat;
+    }));
+  };
   
   return (
     <div className="pt-20 h-[calc(100vh-80px)] flex animate-fade-in">
@@ -84,7 +170,7 @@ const Messages = () => {
                 className={`p-3 flex items-center border-b border-border cursor-pointer transition-colors ${
                   selectedChat === chat.id ? "bg-accent/10" : "hover:bg-secondary"
                 }`}
-                onClick={() => setSelectedChat(chat.id)}
+                onClick={() => handleSelectChat(chat.id)}
               >
                 <div className="relative mr-3">
                   <img
@@ -184,7 +270,7 @@ const Messages = () => {
                     }`}
                   >
                     <p>{message.text}</p>
-                    <span className={`text-xs ${message.sender === "me" ? "text-brand-navy/70" : "text-muted-foreground"} block mt-1`}>
+                    <span className={`text-xs ${message.sender === "me" ? "text-white/70" : "text-muted-foreground"} block mt-1`}>
                       {message.time}
                     </span>
                   </div>
@@ -201,11 +287,21 @@ const Messages = () => {
                 type="text"
                 placeholder="Type a message..."
                 className="flex-1 bg-accent/10 rounded-full py-2 px-4 mx-2 text-sm"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSendMessage();
+                  }
+                }}
               />
               <button className="p-2 rounded-full hover:bg-accent/10 text-muted-foreground hover:text-foreground transition-colors">
                 <Smile className="h-5 w-5" />
               </button>
-              <button className="p-2 rounded-full bg-brand-navy text-white ml-1">
+              <button 
+                className="p-2 rounded-full bg-brand-navy text-white ml-1"
+                onClick={handleSendMessage}
+              >
                 <Send className="h-5 w-5" />
               </button>
             </div>
