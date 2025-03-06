@@ -3,9 +3,11 @@ import { useState } from "react";
 import { MarketplaceCategories } from "@/components/MarketplaceCategories";
 import { ItemCard } from "@/components/ItemCard";
 import { Search, SlidersHorizontal } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Marketplace = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   
   // Mock data for marketplace items
   const items = [
@@ -88,10 +90,22 @@ const Marketplace = () => {
       }
     }
   ];
+
+  // Handle category selection from MarketplaceCategories
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+  };
+  
+  // Filter items based on search query and selected category
+  const filteredItems = items.filter(item => {
+    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "All" || item.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
   
   return (
     <div className="pt-20 pb-16 min-h-screen">
-      <MarketplaceCategories />
+      <MarketplaceCategories onSelectCategory={handleCategorySelect} selectedCategory={selectedCategory} />
       
       <div className="py-8 px-6 md:px-8 max-w-7xl mx-auto">
         {/* Search and Filters */}
@@ -115,9 +129,15 @@ const Marketplace = () => {
         
         {/* Items Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((item) => (
-            <ItemCard key={item.id} item={item} />
-          ))}
+          {filteredItems.length > 0 ? (
+            filteredItems.map((item) => (
+              <ItemCard key={item.id} item={item} />
+            ))
+          ) : (
+            <div className="col-span-3 py-16 text-center">
+              <p className="text-muted-foreground">No items found. Try a different search or category.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
