@@ -6,6 +6,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NavBar } from "@/components/NavBar";
 import Index from "@/pages/Index";
+import Marketplace from "@/pages/Marketplace";
+import Social from "@/pages/Social";
+import Messages from "@/pages/Messages";
+import SignIn from "@/pages/SignIn";
 import NotFound from "@/pages/NotFound";
 import { ItemDetail } from "@/components/ItemDetail";
 
@@ -22,6 +26,10 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/item/:id" element={<ItemDetail />} />
+            <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/social" element={<Social />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/sign-in" element={<SignIn />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

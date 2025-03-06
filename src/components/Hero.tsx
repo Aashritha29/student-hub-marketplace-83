@@ -1,13 +1,13 @@
 
-import { ArrowRight, TrendingUp, BookOpen, Monitor } from "lucide-react";
+import { ArrowRight, BookOpen, Monitor, Crafts } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 export function Hero() {
   const categories = [
-    { name: "Trending", icon: TrendingUp, color: "bg-yellow-50 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400" },
-    { name: "Books", icon: BookOpen, color: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400" },
-    { name: "Electronics", icon: Monitor, color: "bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400" },
+    { name: "Textbooks", icon: BookOpen, color: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400" },
+    { name: "Crafts", icon: Crafts, color: "bg-yellow-50 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400" },
+    { name: "Gadgets", icon: Monitor, color: "bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400" },
   ];
 
   return (
@@ -21,16 +21,15 @@ export function Hero() {
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
           <div className="inline-block px-3 py-1 mb-6 rounded-full bg-accent/10 text-accent text-sm font-medium animate-fade-in">
-            The University Marketplace & Student Networking Hub
+            Trade, Connect, and Network with Campus Connect
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slide-up" style={{animationDelay: "150ms"}}>
-            Buy, Sell, and Connect with Fellow Students
+            Trade, Connect, and Network with Fellow Students
           </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground mb-8 animate-slide-up" style={{animationDelay: "250ms"}}>
-            A platform designed for university students to exchange essentials
-            and build meaningful connections with peers.
+            Campus Connect is your go-to platform for trading essentials and building meaningful connections with fellow students on campus.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up" style={{animationDelay: "350ms"}}>
@@ -38,21 +37,21 @@ export function Hero() {
               to="/marketplace" 
               className="w-full sm:w-auto px-6 py-3 bg-brand-navy hover:bg-brand-navy/90 text-white rounded-lg font-medium flex items-center justify-center transition-colors"
             >
-              <span>Explore Marketplace</span>
+              <span>Start Trading</span>
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
             
             <Link 
-              to="/profile" 
+              to="/social" 
               className="w-full sm:w-auto px-6 py-3 bg-white hover:bg-gray-50 dark:bg-white/10 dark:hover:bg-white/15 text-foreground border border-border rounded-lg font-medium flex items-center justify-center transition-colors"
             >
-              Create Profile
+              Connect with Students
             </Link>
           </div>
         </div>
 
         {/* Category Shortcuts */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
           {categories.map((category, index) => (
             <div 
               key={category.name}
@@ -68,7 +67,7 @@ export function Hero() {
                 </div>
                 <h3 className="text-lg font-medium mb-2">{category.name}</h3>
                 <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                  Browse popular {category.name.toLowerCase()} listings
+                  Trade {category.name.toLowerCase()} with other students
                 </p>
               </Link>
             </div>

@@ -8,7 +8,7 @@ const mockItems = [
     id: 1,
     title: "Engineering Physics Textbook",
     price: 599,
-    category: "Books",
+    category: "Textbooks",
     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=2073&auto=format&fit=crop",
     location: "Delhi University",
     seller: {
@@ -32,10 +32,10 @@ const mockItems = [
   },
   {
     id: 3,
-    title: "Study Desk and Chair",
-    price: 3499,
-    category: "Furniture",
-    image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=2089&auto=format&fit=crop",
+    title: "Handmade Pottery Set",
+    price: 1499,
+    category: "Crafts",
+    image: "https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?q=80&w=2089&auto=format&fit=crop",
     location: "VIT Vellore",
     seller: {
       id: 3,
@@ -45,10 +45,10 @@ const mockItems = [
   },
   {
     id: 4,
-    title: "Scientific Calculator Casio FX-991EX",
-    price: 1199,
-    category: "Electronics",
-    image: "https://images.unsplash.com/photo-1564473185935-87a13d6aec6b?q=80&w=2070&auto=format&fit=crop",
+    title: "Fitness Smartwatch",
+    price: 2199,
+    category: "Gadgets",
+    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=2070&auto=format&fit=crop",
     location: "BITS Pilani",
     seller: {
       id: 4,
@@ -73,7 +73,7 @@ export function FeaturedItems() {
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold">Featured Items</h2>
+            <h2 className="text-2xl md:text-3xl font-bold">Featured Items for Trade</h2>
             <p className="text-muted-foreground mt-1">Discover popular items from students across universities</p>
           </div>
           <a href="/marketplace" className="text-brand-navy dark:text-blue-400 font-medium hover:underline">

@@ -1,7 +1,7 @@
-
 import { useState } from "react";
 import { ChevronLeft, MapPin, User, MessageCircle } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 // Mock data for demonstration
 const mockItems = [
